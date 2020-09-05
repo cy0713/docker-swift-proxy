@@ -45,16 +45,12 @@ $ sudo mount -a
 chloe@host:~$ docker run -d -p 12345:8080 -e SWIFT_OBJECT_NODES="192.168.3.68:8010:sdb1;192.168.0.153:5010:sdd1" -e SWIFT_PWORKERS=64  -e SWIFT_SCP_COPY=root@192.168.3.68:~/docker-swift-proxy/files:654321 -t swift-proxy
 ```
 
-注意，上面的命令中的端口号是映射之前的端口号！！也就是主机的端口号！
+注意，上面的命令中的端口号是映射前面部分的端口号！！也就是主机的端口号！
 
 Over here, we mapped 8080 port of container to port 12345 on host. 
 
 
-We specified three nodes to be added as object servers. Please note that two of these containers are runing
-on same machine (192.168.0.153). We separate them based on the object, account, and container port mapping
-from container to host, i.e., one container maps 6010:6010, 6011:6011, 6012:6012 whereas other
-container used 5010:6010, 5011:6011, and 5012:6012. Also note that we mentioned only one port and next
-two are calculated automatically by adding 1 and 2. 
+Note that we mentioned only one port and next two are calculated automatically by adding 1 and 2. 
 
 
 Similarly, storage device that container
@@ -66,7 +62,7 @@ SWIFT_PWORKERS is used to set the proxy workers dynamically.
 
 The ring files created at the proxy server needs to be copied to the object servers as well. SWIFT_SCP_COPY
 contains the remote location path where ring files can be copied to so that we
-can copy these files before launching object, container, and account servers on object servers. root@192.168.0.171:~/files is the remote path, whereas kevin is the `scp password`.
+can copy these files before launching object, container, and account servers on object servers. root@192.168.3.68:~/docker-swift-proxy/files is the remote path, whereas 654321 is the `scp password`.
 
 At this point OpenStack Swift proxy is running.
 
