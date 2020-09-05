@@ -17,10 +17,35 @@ swift proxy.
 
 ## Usage
 
+首先需要在storage node上面为swift-disk分配一块地方，目前采用跟saio的步骤一样
+
+1. 为回环设备创建文件
+```bash
+$ sudo mkdir -p /srv
+$ sudo truncate -s 1GB /srv/swift-disk
+$ sudo mkfs.xfs /srv/swift-disk
+```
+
+2. 编辑/etc/fstab并添加
+
+```bash
+$ /srv/swift-disk /mnt/sdb1 xfs loop,noatime 0 0
+```
+
+3. 创建swift数据挂载点
+
+```bash
+$ sudo mkdir /mnt/sdb1
+$ sudo mount -a
+```
+
+4. 用```df -h```查看创建的回环设备，假设为 /dev/loop2，那么下面的 sdb1 就替换为 loop2
 
 ```bash
 hulk0@host1:~$ docker run -d -p 12345:8080 -e SWIFT_OBJECT_NODES="192.168.0.153:6010:sdb1;192.168.0.153:5010:sdd1;192.168.0.154:6010:sdb1" -e SWIFT_PWORKERS=64  -e SWIFT_SCP_COPY=root@192.168.0.171:~/files:kevin -t alivt/swift-proxy
 ```
+
+注意，上面的命令中的端口号是映射之前的端口号！！也就是主机的端口号！
 
 Over here, we mapped 8080 port of container to port 12345 on host. 
 
