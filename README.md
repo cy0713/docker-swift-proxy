@@ -91,7 +91,7 @@ $ exit 退出
 ```
 
 Next, we need to launch object server containers on the machines we specified. To launch object servers please look at the following:
-https://github.com/chalianwar/docker-swift-object
+https://github.com/cy0713/docker-swift-object
 
 
 Once object server containers are up and running, we can use the swift python client to access Swift using the Docker forwarded port, in this example port 12345.
