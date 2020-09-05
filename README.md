@@ -39,13 +39,13 @@ $ sudo mkdir /mnt/sdb1
 $ sudo mount -a
 ```
 
-4. 用```df -h```查看创建的回环设备，假设为 /dev/loop2，那么下面的 sdb1 就替换为 loop2
+4. 用```df -h```查看创建的回环设备，假设为 /dev/loop2，那么STORAGE DEVICE 就是 loop2
 
 ```bash
-chloe@host:~$ docker run -d -p 12345:8080 -e SWIFT_OBJECT_NODES="192.168.3.68:8010:sdb1;192.168.0.153:5010:sdd1" -e SWIFT_PWORKERS=64  -e SWIFT_SCP_COPY=root@192.168.3.68:~/docker-swift-proxy/files:654321 -t swift-proxy
+chloe@host:~$ docker run -d -p 12345:8080 -e SWIFT_OBJECT_NODES="192.168.3.68:8010:loop2" -e SWIFT_PWORKERS=64  -e SWIFT_SCP_COPY=root@192.168.3.68:~/docker-swift-proxy/files:654321 -t swift-proxy
 ```
 
-注意，上面的命令中的端口号是映射前面部分的端口号！！也就是主机的端口号！
+注意，上面的命令中的端口号是映射前面部分的端口号！！也就是主机的端口号！多个NODES中间用；隔开！
 
 Over here, we mapped 8080 port of container to port 12345 on host. 
 
