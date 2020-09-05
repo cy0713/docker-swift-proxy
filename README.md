@@ -42,7 +42,7 @@ $ sudo mount -a
 4. 用```df -h```查看创建的回环设备，假设为 /dev/loop2，那么下面的 sdb1 就替换为 loop2
 
 ```bash
-hulk0@host1:~$ docker run -d -p 12345:8080 -e SWIFT_OBJECT_NODES="192.168.0.153:6010:sdb1;192.168.0.153:5010:sdd1;192.168.0.154:6010:sdb1" -e SWIFT_PWORKERS=64  -e SWIFT_SCP_COPY=root@192.168.0.171:~/files:kevin -t alivt/swift-proxy
+chloe@host:~$ docker run -d -p 12345:8080 -e SWIFT_OBJECT_NODES="192.168.3.68:8010:sdb1;192.168.0.153:5010:sdd1" -e SWIFT_PWORKERS=64  -e SWIFT_SCP_COPY=root@192.168.3.68:~/docker-swift-proxy/files:654321 -t swift-proxy
 ```
 
 注意，上面的命令中的端口号是映射之前的端口号！！也就是主机的端口号！
@@ -72,9 +72,22 @@ At this point OpenStack Swift proxy is running.
 
 
 ```bash
-hulk0@host1:~$ docker ps
+chloe@host:~$ docker ps
 CONTAINER ID        IMAGE                                     COMMAND                CREATED             STATUS              PORTS                     NAMES
-f7bd815a49ee        alivt/swift-proxy   "/bin/sh -c /usr/loc   4 seconds ago       Up 2 seconds        0.0.0.0:12345->8080/tcp   kickass_bohr
+f7bd815a49ee        swift-proxy                               "/bin/sh -c /usr/loc   4 seconds ago       Up 2 seconds        0.0.0.0:12345->8080/tcp   kickass_bohr
+```
+
+善于使用docker的日志
+
+```bash
+$ docker logs <container name>
+```
+
+以及进入docker环境中
+
+```bash
+$ docker exec -it <container name> /bin/bash
+$ exit 退出
 ```
 
 Next, we need to launch object server containers on the machines we specified. To launch object servers please look at the following:
@@ -84,7 +97,7 @@ https://github.com/chalianwar/docker-swift-object
 Once object server containers are up and running, we can use the swift python client to access Swift using the Docker forwarded port, in this example port 12345.
 
 ```bash
-hulk0@host1:~$ swift -A http://127.0.0.1:12345/auth/v1.0 -U test:tester -K testing stat
+chloe@host:~$ swift -A http://127.0.0.1:12345/auth/v1.0 -U test:tester -K testing stat
        Account: AUTH_test
     Containers: 0
        Objects: 0
@@ -98,8 +111,14 @@ hulk0@host1:~$ swift -A http://127.0.0.1:12345/auth/v1.0 -U test:tester -K testi
 
 Try uploading a file:
 
+首先要创建文件 swift.txt
+
 ```bash
-hulk0@host1:~$ swift -A http://127.0.0.1:12345/auth/v1.0 -U test:tester -K testing upload swift swift.txt
+$ sudo vim swift.txt
+```
+
+```bash
+chloe@host:~$ swift -A http://127.0.0.1:12345/auth/v1.0 -U test:tester -K testing upload swift swift.txt
 swift.txt
 ```
 
