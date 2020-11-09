@@ -1,3 +1,15 @@
+#Install Docker
+
+```
+$ sudo -E sh -c 'apt-get install -y -qq --no-install-recom
+```
+
+#Build image
+
+```
+$ docker build -t <name> .  //.表示Dockerfile在当前目录下
+```
+
 #Docker OpenStack Swift Proxy Server
 
 This is a docker file that creates an OpenStack swift proxy image. You can
