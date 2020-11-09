@@ -1,7 +1,7 @@
 #Install Docker
 
 ```
-$ sudo -E sh -c 'apt-get install -y -qq --no-install-recom
+$ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 ```
 Usually, add the user into group to avoid using 'sudo'
 
