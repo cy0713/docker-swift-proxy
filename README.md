@@ -3,6 +3,12 @@
 ```
 $ sudo -E sh -c 'apt-get install -y -qq --no-install-recom
 ```
+Usually, add the user into group to avoid using 'sudo'
+
+```
+$ sudo usermod -aG docker de209
+```
+
 
 #Build image
 
